@@ -779,6 +779,19 @@ body {
   background: var(--code-bg);
 }
 
+.code-block-wrapper {
+  margin: 16px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--code-bg);
+}
+
+.message-content .code-block-wrapper pre {
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
 .code-block-header {
   display: flex;
   align-items: center;
@@ -2117,9 +2130,6 @@ body {
 .api-key-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
 }
 
 /* -----------------------------------------------------------------------------

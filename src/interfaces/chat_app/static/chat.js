@@ -530,7 +530,7 @@ const Markdown = {
     return html.replace(
       /<pre><code class="language-(\w+)">/g,
       (match, lang) => `
-        <pre>
+        <div class="code-block-wrapper">
           <div class="code-block-header">
             <span class="code-block-lang">${lang}</span>
             <button class="code-block-copy" onclick="Markdown.copyCode(this)">
@@ -541,10 +541,10 @@ const Markdown = {
               <span>Copy</span>
             </button>
           </div>
-          <code class="language-${lang}">`
+          <pre><code class="language-${lang}">`
     ).replace(
       /<pre><code>/g,
-      `<pre>
+      `<div class="code-block-wrapper">
         <div class="code-block-header">
           <span class="code-block-lang">code</span>
           <button class="code-block-copy" onclick="Markdown.copyCode(this)">
@@ -555,13 +555,14 @@ const Markdown = {
             <span>Copy</span>
           </button>
         </div>
-        <code>`
-    );
+        <pre><code>`
+    )
+    .replace(/<\/code><\/pre>/g, `</code></pre></div>`);
   },
 
   copyCode(button) {
-    const pre = button.closest('pre');
-    const code = pre.querySelector('code');
+    const wrapper = button.closest('.code-block-wrapper');
+    const code = wrapper.querySelector('code');
     const text = code.textContent;
     
     navigator.clipboard.writeText(text).then(() => {
