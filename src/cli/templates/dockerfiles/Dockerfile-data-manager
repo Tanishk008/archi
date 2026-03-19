@@ -5,29 +5,15 @@ WORKDIR /root/archi
 
 COPY LICENSE LICENSE
 
-# Install Firefox and Geckodriver for Selenium
 RUN apt-get update && apt-get install -y \
-    firefox-esr \
+    ca-certificates \
+    git \
     wget \
     gnupg \
-    git \
-    ca-certificates \
     --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Geckodriver (architecture-aware)
-ARG TARGETARCH
-RUN GECKO_VERSION="v0.36.0" && \
-    if [ "$TARGETARCH" = "arm64" ]; then \
-        GECKO_ARCH="linux-aarch64"; \
-    else \
-        GECKO_ARCH="linux64"; \
-    fi && \
-    wget -q "https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/geckodriver-${GECKO_VERSION}-${GECKO_ARCH}.tar.gz" \
-    && tar -xzf "geckodriver-${GECKO_VERSION}-${GECKO_ARCH}.tar.gz" -C /usr/local/bin \
-    && chmod +x /usr/local/bin/geckodriver \
-    && rm "geckodriver-${GECKO_VERSION}-${GECKO_ARCH}.tar.gz"
 
 COPY archi_code src
 COPY configs configs
